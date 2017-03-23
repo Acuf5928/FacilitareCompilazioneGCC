@@ -37,7 +37,7 @@ while percorsofile!="-1":
                 for f in file_paths:
                     f = f.replace('\'','\"') #sostituisce ' con "
                     salvataggio = f.replace('.c', '.exe') #genera il percorso del file generato
-                    print("\nCompilazione:",Contatore,"\n")
+                    print("\nCompilazione:",Contatore,"\n",f,"\n")
                     os.system("gcc -o \"" + salvataggio + "\" " + commenti + " \"" + f + "\"") #invia i comandi a gcc
                     Contatore += 1
 
