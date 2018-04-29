@@ -66,7 +66,5 @@ while percorsofile!="-1":
             salvataggio = percorsofile.replace('.c', estensione) #genera il percorso del file generato
             print("Compilazione")
             os.system("gcc -o " + salvataggio + " " + commenti + " " + percorsofile) #invia i comandi a gcc
-        
-        else:
-            print("2")
+
         Scelta = "0"
