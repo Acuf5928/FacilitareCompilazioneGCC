@@ -4,8 +4,6 @@ import os
 import glob
 
 percorsofile = ""
-Selta = "0"
-commenti = ""
 
 if os.name == "nt":
     estensione = ".exe"
@@ -24,10 +22,6 @@ while percorsofile!="-1":
 
         if percorsofile == "-1": #termina il programma se verificato
             break
-
-        if len(percorsofile) < 3:
-            print("Input non riconociuto")
-            break
         
         Scelta = input("Vuoi inserire commenti al compilatore?\n1)Si 2)No\n")
 
@@ -38,7 +32,7 @@ while percorsofile!="-1":
         percorsofile = percorsofile.replace('\'', '')
 
         if os.path.isdir(percorsofile): #blocco codice da eseguire se viene inserita una cartella
-            if percorsofile[-1]!="\"": #viene aggiunto \ ala fine del path, se non e' presente
+            if percorsofile[-1] != slash: #viene aggiunto \ ala fine del path, se non e' presente
                 percorsofile = percorsofile + slash
 
             try:
