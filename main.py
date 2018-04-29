@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import glob
@@ -6,6 +6,14 @@ import glob
 percorsofile = ""
 Selta = "0"
 commenti = ""
+
+if os.name == "nt":
+    estensione = ".exe"
+    slash = "\\"
+
+else:
+    estensione = ".out"
+    slash = "/"
 
 while percorsofile!="-1":
     while percorsofile!="-1": 
@@ -26,38 +34,39 @@ while percorsofile!="-1":
         if Scelta == "1":
             commenti = input("Inserire commento:")
         
-        if percorsofile[-2]!=".": #blocco codice da eseguire se viene inserita una cartella
-            if percorsofile[-3]!=".":
-                percorsofile = percorsofile.replace('\"', '') #elimina eventuali " ' nel path della cartella, passo necessario a far funzionare glob, verranno riaggiuni direttamente in os.system
-                percorsofile = percorsofile.replace('\'', '')
-                
-                if percorsofile[-1]!="\"": #viene aggiunto \ ala fine del path, se non è presente
-                    percorsofile = percorsofile + "\\"
+        percorsofile = percorsofile.replace('\"', '') #elimina eventuali " ' nel path della cartella, passo necessario a far funzionare glob, verranno riaggiuni direttamente in os.system
+        percorsofile = percorsofile.replace('\'', '')
 
-                try:
-                    file_paths = glob.glob(percorsofile + "*.c") #genera la lista dei file
+        if os.path.isdir(percorsofile): #blocco codice da eseguire se viene inserita una cartella
+            if percorsofile[-1]!="\"": #viene aggiunto \ ala fine del path, se non e' presente
+                percorsofile = percorsofile + slash
 
-                except Exception:
-                    print("Input non riconociuto")
-                    break
-                
-                Contatore = 1
-                
-                for f in file_paths:
-                    f = f.replace('\'','\"') #sostituisce ' con "
-                    salvataggio = f.replace('.c', '.exe') #genera il percorso del file generato
-                    print("\n Compilazione:",Contatore,"\n",f,"\n")
-                    os.system("gcc -o \"" + salvataggio + "\" " + commenti + " \"" + f + "\"") #invia i comandi a gcc
-                    Contatore += 1
+            try:
+                file_paths = glob.glob(percorsofile + "*.c") #genera la lista dei file
 
-        if percorsofile[-2]=="." or percorsofile[-3]==".": #blocco codice da eseguire se viene inserito un file
+            except Exception:
+                print("Input non riconociuto")
+                break
+                
+            Contatore = 1
+                
+            for f in file_paths:
+                f = f.replace('\'','\"') #sostituisce ' con "
+                salvataggio = f.replace('.c', estensione) #genera il percorso del file generato
+                print("\n Compilazione:",Contatore,"\n",f,"\n")
+                os.system("gcc -o \"" + salvataggio + "\" " + commenti + " \"" + f + "\"") #invia i comandi a gcc
+                Contatore += 1
+
+        if os.path.isfile(percorsofile): #blocco codice da eseguire se viene inserito un file
             if percorsofile[-1]!="c":
                 if percorsofile[-2]!="c": #verifica l'esensione del file
                     print("File non valido")
                     break
 
-            salvataggio = percorsofile.replace('.c', '.exe') #genera il percorso del file generato
+            salvataggio = percorsofile.replace('.c', estensione) #genera il percorso del file generato
             print("Compilazione")
             os.system("gcc -o " + salvataggio + " " + commenti + " " + percorsofile) #invia i comandi a gcc
         
+        else:
+            print("2")
         Scelta = "0"
